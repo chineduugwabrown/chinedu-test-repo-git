@@ -1,3 +1,3 @@
 # chinedu-test-repo-git
 
-I love using GitHub
+I love using GitHub. Thanks!
