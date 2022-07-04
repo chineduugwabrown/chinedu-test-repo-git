@@ -1,0 +1,119 @@
+terraform {
+  required_providers {
+    google = {
+      source = "hashicorp/google"
+      version = "4.25.0"
+    }
+  }
+
+  backend "gcs" {
+      bucket = "practice-project-338002-tfstate"
+      prefix = "chinedu-state/chinedu-repo-2"
+    
+  }
+}
+
+provider "google" {
+  project     = "practice-project-338002"
+  region      = "us-central1"
+}
+
+
+resource "google_compute_network" "vpc_network1" {
+  project                 = "practice-project-338002"
+  name                    = "chinedu-vpc-network"
+  auto_create_subnetworks = false
+  mtu                     = 1460
+}
+
+resource "google_compute_subnetwork" "my-subnetwork1" {
+  name          = "chinedusubnet-subnetwork"
+  ip_cidr_range = "10.128.0.0/20"
+  region        = "us-central1"
+  network       = google_compute_network.vpc_network1.name
+}
+
+resource "google_compute_firewall" "default1" {
+  name    = "chinedu-firewall"
+  network = google_compute_network.vpc_network1.name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "3389"]
+  }
+
+  source_tags = ["network"]
+}
+
+
+resource "google_compute_instance" "vm-instance1" {
+  name         = "chinedu-us-vm"
+  machine_type = "e2-medium"
+  zone         = "us-central1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
+    }
+  }
+
+  network_interface {
+    network = "default"
+
+    access_config {
+    }
+  }
+}
+
+resource "google_compute_network" "vpc_network2" {
+  project                 = "practice-project-338002"
+  name                    = "brown-vpc-network"
+  auto_create_subnetworks = false
+  mtu                     = 1460
+}
+
+resource "google_compute_subnetwork" "my-subnetwork2" {
+  name          = "brownsubnet-subnetwork"
+  ip_cidr_range = "172.16.0.0/24"
+  region        = "us-central1"
+  network       = google_compute_network.vpc_network2.name
+}
+
+resource "google_compute_firewall" "default2" {
+  name    = "brown-firewall"
+  network = google_compute_network.vpc_network2.name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "3389"]
+  }
+
+  source_tags = ["network"]
+}
+
+resource "google_compute_instance" "vm-instance2" {
+  name         = "brown-us-vm"
+  machine_type = "e2-medium"
+  zone         = "us-central1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
+    }
+  }
+
+  network_interface {
+    network = "default"
+
+    access_config {
+    }
+  }
+}
