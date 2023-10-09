@@ -107,3 +107,9 @@ resource "google_pubsub_topic" "example" {
 
   message_retention_duration = "86600s"
 }
+
+resource "google_storage_bucket" "auto-expire" {
+  name          = "auto-expiring-bucket"
+  location      = "US"
+  force_destroy = true
+}
