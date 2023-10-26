@@ -98,18 +98,28 @@
 #  }
 #}
 
-resource "google_pubsub_topic" "example" {
-  name = "example-topic"
+#resource "google_pubsub_topic" "example" {
+#  name = "example-topic"
+#
+#  labels = {
+#    foo = "bar"
+#  }
+#
+#  message_retention_duration = "86600s"
+#}
+#
+#resource "google_storage_bucket" "auto-expire" {
+#  name          = "auto-expiring-bucket"
+#  location      = "US"
+#  force_destroy = true
+#}
 
-  labels = {
+resource "google_dataflow_job" "big_data_job" {
+  name              = "dataflow-job"
+  template_gcs_path = "gs://my-bucket/templates/template_file"
+  temp_gcs_location = "gs://my-bucket/tmp_dir"
+  parameters = {
     foo = "bar"
+    baz = "qux"
   }
-
-  message_retention_duration = "86600s"
-}
-
-resource "google_storage_bucket" "auto-expire" {
-  name          = "auto-expiring-bucket"
-  location      = "US"
-  force_destroy = true
 }
