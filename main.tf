@@ -122,4 +122,5 @@ resource "google_dataflow_job" "big_data_job" {
     foo = "bar"
     baz = "qux"
   }
+  
 }
