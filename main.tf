@@ -109,7 +109,7 @@
 #}
 #
 resource "google_storage_bucket" "auto-expire" {
-  name          = "auto-expiring-bucket-01"
+  name          = "auto-expiring-bucket-001"
   location      = "US"
   force_destroy = true
 
