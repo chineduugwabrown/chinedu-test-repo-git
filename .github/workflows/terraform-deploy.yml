@@ -19,7 +19,7 @@ jobs:
           terraform_version: 1.0.0
 
       - name: Authenticate to GCP
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@v2.0.0
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@v2.311.0
         with:
           version: '290.0.1'
           project_id: ${{ secrets.GCP_PROJECT_ID }}
