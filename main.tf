@@ -108,13 +108,15 @@
 #  message_retention_duration = "86600s"
 #}
 #
-resource "google_storage_bucket" "auto-expire" {
-  name          = "auto-expiring-bucket-001125"
-  location      = "US"
-  
-  force_destroy = true
 
-}
+#resource "google_storage_bucket" "auto-expire" {
+#  name          = "auto-expiring-bucket"
+#  location      = "US"
+#  force_destroy = true
+#}
+
+/*
+
 
 #resource "google_dataflow_job" "big_data_job" {
 #  name              = "dataflow-job"
@@ -126,3 +128,4 @@ resource "google_storage_bucket" "auto-expire" {
 #  }
 #  
 #}
+
