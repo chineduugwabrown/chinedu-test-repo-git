@@ -131,7 +131,7 @@
 */
 
 resource "google_storage_bucket" "gcs-bucket" {
-  name          = "image-store"
+  name          = "lekcub-bucket-123"
   location      = "US"
   force_destroy = true
 
