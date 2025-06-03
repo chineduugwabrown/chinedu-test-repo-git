@@ -38,4 +38,5 @@ terraform {
 provider "google" {
   project     = "lekcub-project-1"
   region      = "us-central1"
+  
 }
