@@ -1,5 +1,3 @@
-
-
 # Random suffix for instance name (optional, helps avoid name conflicts)
 resource "random_id" "db_name_suffix" {
   byte_length = 4
@@ -23,8 +21,10 @@ resource "google_sql_database_instance" "postgres_instance" {
     }
 
     ip_configuration {
-      ipv4_enabled    = true
-      require_ssl     = false
+      ipv4_enabled = true
+      # require_ssl is not a valid argument in ip_configuration for postgres instances.
+      # To enforce SSL, configure database flags or use client connection options (e.g., sslmode=require),
+      # or prefer private IP + Cloud SQL Auth Proxy for secure connectivity.
       authorized_networks {
         name  = "office"
         value = "173.69.155.130/32" # Inserted current public IPv4
