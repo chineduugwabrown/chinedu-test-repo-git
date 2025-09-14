@@ -67,3 +67,17 @@ resource "google_project_iam_member" "tf_compute_network_admin" {
   role    = "roles/compute.networkAdmin"
   member  = "serviceAccount:${var.terraform_sa_email}"
 }
+
+resource "google_project_iam_member" "tf_service_usage_admin" {
+  count   = var.terraform_sa_email == "" ? 0 : 1
+  project = "lekcub-project-1"
+  role    = "roles/serviceusage.serviceUsageAdmin"
+  member  = "serviceAccount:${var.terraform_sa_email}"
+}
+
+resource "google_project_iam_member" "tf_service_account_user" {
+  count   = var.terraform_sa_email == "" ? 0 : 1
+  project = "lekcub-project-1"
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${var.terraform_sa_email}"
+}
