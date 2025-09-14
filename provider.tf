@@ -38,7 +38,6 @@ terraform {
 provider "google" {
   project     = "lekcub-project-1"
   region      = "us-central1"
-  
 }
 
 # Ensure required APIs are enabled
@@ -52,4 +51,19 @@ resource "google_project_service" "compute" {
   project = "lekcub-project-1"
   service = "compute.googleapis.com"
   disable_on_destroy = false
+}
+
+# IAM role bindings for Terraform service account (if provided)
+resource "google_project_iam_member" "tf_cloudsql_admin" {
+  count   = var.terraform_sa_email == "" ? 0 : 1
+  project = "lekcub-project-1"
+  role    = "roles/cloudsql.admin"
+  member  = "serviceAccount:${var.terraform_sa_email}"
+}
+
+resource "google_project_iam_member" "tf_compute_network_admin" {
+  count   = var.terraform_sa_email == "" ? 0 : 1
+  project = "lekcub-project-1"
+  role    = "roles/compute.networkAdmin"
+  member  = "serviceAccount:${var.terraform_sa_email}"
 }
