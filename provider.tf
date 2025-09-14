@@ -42,41 +42,45 @@ provider "google" {
 
 # Ensure required APIs are enabled
 resource "google_project_service" "cloud_sql_admin" {
-  project = "lekcub-project-1"
-  service = "sqladmin.googleapis.com"
+  project            = "lekcub-project-1"
+  service            = "sqladmin.googleapis.com"
   disable_on_destroy = false
 }
 
 resource "google_project_service" "compute" {
-  project = "lekcub-project-1"
-  service = "compute.googleapis.com"
+  project            = "lekcub-project-1"
+  service            = "compute.googleapis.com"
   disable_on_destroy = false
 }
 
-# IAM role bindings for Terraform service account (if provided)
+# IAM role bindings for Terraform service account (if provided & allowed)
+locals {
+  manage_iam = var.manage_project_iam && var.terraform_sa_email != ""
+}
+
 resource "google_project_iam_member" "tf_cloudsql_admin" {
-  count   = var.terraform_sa_email == "" ? 0 : 1
+  count   = local.manage_iam ? 1 : 0
   project = "lekcub-project-1"
   role    = "roles/cloudsql.admin"
   member  = "serviceAccount:${var.terraform_sa_email}"
 }
 
 resource "google_project_iam_member" "tf_compute_network_admin" {
-  count   = var.terraform_sa_email == "" ? 0 : 1
+  count   = local.manage_iam ? 1 : 0
   project = "lekcub-project-1"
   role    = "roles/compute.networkAdmin"
   member  = "serviceAccount:${var.terraform_sa_email}"
 }
 
 resource "google_project_iam_member" "tf_service_usage_admin" {
-  count   = var.terraform_sa_email == "" ? 0 : 1
+  count   = local.manage_iam ? 1 : 0
   project = "lekcub-project-1"
   role    = "roles/serviceusage.serviceUsageAdmin"
   member  = "serviceAccount:${var.terraform_sa_email}"
 }
 
 resource "google_project_iam_member" "tf_service_account_user" {
-  count   = var.terraform_sa_email == "" ? 0 : 1
+  count   = local.manage_iam ? 1 : 0
   project = "lekcub-project-1"
   role    = "roles/iam.serviceAccountUser"
   member  = "serviceAccount:${var.terraform_sa_email}"
