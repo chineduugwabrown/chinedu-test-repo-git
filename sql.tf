@@ -13,9 +13,7 @@ output "active_region" {
   value = data.google_client_config.current.region
 }
 
-output "active_access_token_scopes" {
-  value = data.google_client_config.current.scopes
-}
+# Removed active_access_token_scopes output: google_client_config does not export scopes attribute.
 
 # Cloud SQL PostgreSQL instance
 resource "google_sql_database_instance" "postgres_instance" {
