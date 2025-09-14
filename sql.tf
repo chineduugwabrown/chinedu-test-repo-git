@@ -27,7 +27,8 @@ resource "google_sql_database_instance" "postgres_instance" {
     google_project_iam_member.tf_cloudsql_admin,
     google_project_iam_member.tf_compute_network_admin,
     google_project_iam_member.tf_service_usage_admin,
-    google_project_iam_member.tf_service_account_user
+    google_project_iam_member.tf_service_account_user,
+    google_project_iam_member.tf_project_viewer
   ]
 
   settings {

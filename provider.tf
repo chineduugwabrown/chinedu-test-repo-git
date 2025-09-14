@@ -85,3 +85,10 @@ resource "google_project_iam_member" "tf_service_account_user" {
   role    = "roles/iam.serviceAccountUser"
   member  = "serviceAccount:${var.terraform_sa_email}"
 }
+
+resource "google_project_iam_member" "tf_project_viewer" {
+  count   = local.manage_iam ? 1 : 0
+  project = "lekcub-project-1"
+  role    = "roles/viewer"
+  member  = "serviceAccount:${var.terraform_sa_email}"
+}
