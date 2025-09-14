@@ -7,3 +7,9 @@ variable "terraform_sa_email" {
     error_message = "You must set terraform_sa_email to a valid service account email before apply."
   }
 }
+
+variable "manage_project_iam" {
+  description = "Whether Terraform should attempt to grant IAM roles on the project (requires owner or project IAM admin privileges)."
+  type        = bool
+  default     = false
+}
