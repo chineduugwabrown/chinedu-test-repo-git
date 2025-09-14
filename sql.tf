@@ -3,6 +3,20 @@ resource "random_id" "db_name_suffix" {
   byte_length = 4
 }
 
+data "google_client_config" "current" {}
+
+output "active_project" {
+  value = data.google_client_config.current.project
+}
+
+output "active_region" {
+  value = data.google_client_config.current.region
+}
+
+output "active_access_token_scopes" {
+  value = data.google_client_config.current.scopes
+}
+
 # Cloud SQL PostgreSQL instance
 resource "google_sql_database_instance" "postgres_instance" {
   name             = "postgres-instance-${random_id.db_name_suffix.hex}"

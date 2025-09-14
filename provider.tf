@@ -40,3 +40,16 @@ provider "google" {
   region      = "us-central1"
   
 }
+
+# Ensure required APIs are enabled
+resource "google_project_service" "cloud_sql_admin" {
+  project = "lekcub-project-1"
+  service = "sqladmin.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "compute" {
+  project = "lekcub-project-1"
+  service = "compute.googleapis.com"
+  disable_on_destroy = false
+}
