@@ -21,6 +21,13 @@ resource "google_sql_database_instance" "postgres_instance" {
   database_version = "POSTGRES_15"
   region           = "us-central1"
 
+  depends_on = [
+    google_project_service.cloud_sql_admin,
+    google_project_service.compute,
+    google_project_iam_member.tf_cloudsql_admin,
+    google_project_iam_member.tf_compute_network_admin
+  ]
+
   settings {
     tier              = "db-f1-micro" # 1 vCPU, 3.75GB RAM
     availability_type = "ZONAL"            # or REGIONAL for HA
