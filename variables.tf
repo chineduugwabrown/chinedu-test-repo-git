@@ -18,11 +18,11 @@ variable "password_validation_policy" {
   description = "Password validation policy for Cloud SQL users; set to null to disable."
   type = object({
     enabled                      = bool
-    default_complexity           = optional(bool, true)
-    disallow_username_substring  = optional(bool, true)
-    min_length                   = optional(number, 12)
+    default_complexity           = optional(bool)
+    disallow_username_substring  = optional(bool)
+    min_length                   = optional(number)
     change_interval              = optional(number) # seconds
-    reuse_interval               = optional(number, 5)
+    reuse_interval               = optional(number)
   })
   default = null
 }
