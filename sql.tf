@@ -35,6 +35,28 @@ resource "google_sql_database_instance" "postgres_instance" {
       point_in_time_recovery_enabled = true
     }
 
+    dynamic "password_validation_policy" {
+      for_each = var.password_validation_policy != null ? [""] : []
+      content {
+        complexity = (
+          var.password_validation_policy.default_complexity == true
+          ? "COMPLEXITY_DEFAULT"
+          : null # "COMPLEXITY_UNSPECIFIED" generates a permadiff
+        )
+        disallow_username_substring = (
+          var.password_validation_policy.disallow_username_substring
+        )
+        enable_password_policy   = var.password_validation_policy.enabled
+        min_length               = var.password_validation_policy.min_length
+        password_change_interval = (
+          var.password_validation_policy.change_interval == null
+          ? null
+          : "${var.password_validation_policy.change_interval}s"
+        )
+        reuse_interval = var.password_validation_policy.reuse_interval
+      }
+    }
+
     ip_configuration {
       ipv4_enabled = true
       # require_ssl is not a valid argument in ip_configuration for postgres instances.
@@ -47,7 +69,7 @@ resource "google_sql_database_instance" "postgres_instance" {
     }
   }
 
-  deletion_protection = false
+  deletion_protection = var.terraform_deletion_protection
 }
 
 # Create a database inside the instance

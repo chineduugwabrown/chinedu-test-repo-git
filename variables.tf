@@ -13,3 +13,22 @@ variable "manage_project_iam" {
   type        = bool
   default     = false
 }
+
+variable "password_validation_policy" {
+  description = "Password validation policy for Cloud SQL users; set to null to disable."
+  type = object({
+    enabled                      = bool
+    default_complexity           = optional(bool, true)
+    disallow_username_substring  = optional(bool, true)
+    min_length                   = optional(number, 12)
+    change_interval              = optional(number) # seconds
+    reuse_interval               = optional(number, 5)
+  })
+  default = null
+}
+
+variable "terraform_deletion_protection" {
+  description = "Set to true to protect Cloud SQL instance from accidental deletion."
+  type        = bool
+  default     = false
+}
