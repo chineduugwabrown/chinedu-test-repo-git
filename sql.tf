@@ -1,3 +1,4 @@
+/*
 data "google_client_config" "current" {}
 
 output "active_project" {
@@ -84,3 +85,4 @@ resource "google_sql_user" "default_user" {
   instance = google_sql_database_instance.postgres_instance.name
   password = "mypassword123!"  # Use Secret Manager in real setups
 }
+*/
